@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd ">
+
+    <!-- Data source initialization -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring_jdbc_transactions_prog"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
+    </bean>
+
+    <!-- JdbcTemplate initialization -->
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- TransactionManager initialization -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--Использование TransactionManager напрямую-->
+    <!-- Definition for jdbcTemplateDeveloperDao bean -->
+    <bean id="jdbcTemplateDeveloperDao"
+          class="com.springApp.springJdbcTransactionsProg.dao.jdbc.JdbcTemplateDeveloperDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <!--Использование шаблонного класса TransactionTemplate-->
+    <!-- Definition for jdbcTemplateProjectDao bean -->
+    <bean id="jdbcTemplateProjectDao"
+          class="com.springApp.springJdbcTransactionsProg.dao.jdbc.JdbcTemplateProjectDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="transactionTemplate">
+        <bean class="org.springframework.transaction.support.TransactionTemplate">
+            <property name="transactionManager" ref="transactionManager"/>
+        </bean>
+        </property>
+    </bean>
+
+</beans>
