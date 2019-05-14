@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS postgres.public.DEVELOPERS CASCADE;
-DROP TABLE IF EXISTS postgres.public.PROJECTS CASCADE;
+DROP TABLE IF EXISTS spring_jdbc_transactions.public.DEVELOPERS CASCADE;
+DROP TABLE IF EXISTS spring_jdbc_transactions.public.PROJECTS CASCADE;
 
-CREATE TABLE postgres.public.DEVELOPERS
+CREATE TABLE spring_jdbc_transactions.public.DEVELOPERS
 (
   ID serial NOT NULL,
   NAME character varying(50) NOT NULL,
@@ -14,7 +14,7 @@ OIDS = FALSE
 )
 ;
 
-CREATE TABLE postgres.public.PROJECTS
+CREATE TABLE spring_jdbc_transactions.public.PROJECTS
 (
   DEVELOPERS_ID INT NOT NULL,
   NAME character varying(50) NOT NULL,
